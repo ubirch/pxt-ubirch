@@ -1,0 +1,9 @@
+{
+  "ubirch.sendNumber|block": "send number message|key %key|value %n",
+  "ubirch.sendString|block": "send string message|key %key|value %n",
+  "ubirch.send|block": "send raw message|message %message",
+  "ubirch.setSignKey|block": "set sign key %signKey",
+  "ubirch.showDeviceInfo|block": "show device Info|on display %onDisplay",
+  "ubirch|block": "ubirch",
+  "{id:category}Ubirch": "Ubirch"
+}

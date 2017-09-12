@@ -1,0 +1,28 @@
+{
+    "name": "pxt-ubirch",
+    "version": "0.0.1",
+    "description": "ubirch NB-IoT Messaging",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "pxt-calliope-bc95": "*"
+    },
+    "files": [
+        "README.md",
+        "ubirch.cpp",
+        "ubirch.ts"
+    ],
+    "testFiles": [
+        "tests.ts"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ubirch/pxt-ubirch.git"
+    },
+    "public": true,
+    "yotta": {
+        "dependencies": {
+            "ubirch-nacl-cm0": "https://github.com/ubirch/ubirch-nacl-cm0#v0.1.0"
+        }
+    }
+}
