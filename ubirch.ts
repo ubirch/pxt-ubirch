@@ -3,7 +3,7 @@
  */
 
 
-//% weight=2 color=#c02247 icon="\uf023" block="ubirch"
+//% weight=2 color=#71c05c icon="\uf023" block="ubirch"
 //% parts="ubirch"
 namespace ubirch {
     /**
@@ -44,7 +44,7 @@ namespace ubirch {
 
     //% shim=ubirch::setInternalSignKey
     export function setInternalSignKey(encoded: string): boolean {
-        return encoded.length == 64;
+        return encoded.length == 128;
     }
 
     /**
