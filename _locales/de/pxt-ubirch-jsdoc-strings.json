@@ -1,0 +1,12 @@
+{
+  "ubirch": "ubirch Nachrichtenfunktionen.",
+  "ubirch.createNumberMessage": "Erzeugt eine signierte Zahlennachricht. Kodiert die Daten als eine JSON Nachricht.",
+  "ubirch.createNumberMessage|param|key": "Name des Werts",
+  "ubirch.createNumberMessage|param|value": "die zu sendende Zahl",
+  "ubirch.createStringMessage": "Erzeugt eine signierte Textnachricht. Kodiert die Daten als eine JSON Nachricht.",
+  "ubirch.createStringMessage|param|key": "Name des Werts",
+  "ubirch.createStringMessage|param|value": "der zu sendende Text",
+  "ubirch.setSignKey": "Hiermit wird der private ECC Schlüssel gesetzt. Der Schlüssel muß HEX-kodiert sein.",
+  "ubirch.setSignKey|param|signKey": "der private Signierschlüssel",
+  "ubirch.showDeviceInfo": "Zeigt die Calliope mini Geräte-ID an. Diese wird als Identifikationsmerkmal für das Gerät der Nachricht hinzugefügt."
+}

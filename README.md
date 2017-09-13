@@ -16,6 +16,7 @@ On the USB console window you will see this:
 TEST START
 !!!!  PACKET & SIGNATURE TEST
 ID BC9AB239
+TEST: create unsigned packet: OK
 TEST: set sign key: OK
 TEST: create signed packet: OK
 !!!!  NETWORK TEST
@@ -24,6 +25,7 @@ TEST: sending number (temp): OK
 TEST: sending number (light): OK
 TEST: sending string: OK
 TEST FINISHED OK
+
 ``` 
 
 > It will take some time to send the messages, as the the nRF51 not the fastest chip for
@@ -37,7 +39,39 @@ TEST FINISHED OK
 ### Javascript
 
 ```typescript
-
+input.onButtonPressed(Button.A, () => {
+    bc95.send(
+        ubirch.createNumberMessage(
+            "temperature",
+            input.temperature()
+        )
+    )
+    if (!(bc95.sendOk())) {
+        basic.showIcon(IconNames.Sad)
+    }
+})
+input.onButtonPressed(Button.B, () => {
+    bc95.send(
+        ubirch.createStringMessage(
+            "info",
+            control.deviceName()
+        )
+    )
+    if (!(bc95.sendOk())) {
+        basic.showIcon(IconNames.Sad)
+    }
+})
+ubirch.setSignKey("3bc4b2499d97501aba63b0f6308f8d913bcbdceda853269d6875a06a6432fac77b60882bee2e3f017907ce84e5e1c87f705760fac5877fe0de7c5806c4691f2f")
+modem.enableDebug(true)
+bc95.init(
+    SerialPin.C17,
+    SerialPin.C16,
+    BaudRate.BaudRate9600
+)
+bc95.attach(
+    6
+)
+bc95.setServer("46.23.86.61", 9090)
 ```
 
 ## Meta

@@ -1,10 +1,12 @@
 {
   "ubirch": "ubirch messaging functions.",
-  "ubirch.send": "Send the actual message, signed and encoded. Data is encoded in message pack format:\nINT[DeviceId]BYTES[Signature+Message]. The maximum message size is 440 bytes.",
-  "ubirch.sendNumber": "Send a number to the backend server. Encodes key/value as a json message.",
-  "ubirch.sendString": "Send a string to the backend server. Encodes key/value as a json message.",
-  "ubirch.send|param|message": "the message to send",
+  "ubirch.createNumberMessage": "Create a number message as a signed packet to send to the server. Encodes key/value as a json message.",
+  "ubirch.createNumberMessage|param|key": "the name of the data",
+  "ubirch.createNumberMessage|param|value": "the actual value to send",
+  "ubirch.createStringMessage": "Send a string to the backend server. Encodes key/value as a json message.",
+  "ubirch.createStringMessage|param|key": "the name of the data",
+  "ubirch.createStringMessage|param|value": "the actual value to send",
   "ubirch.setSignKey": "Set secret key to sign messages as a hex encoded string.",
   "ubirch.setSignKey|param|signKey": "the key used for signing",
-  "ubirch.showDeviceInfo": "Show Calliope device id and the secret for communication."
+  "ubirch.showDeviceInfo": "Show Calliope mini device id. It is used when encoding messages to identify\nthe device."
 }

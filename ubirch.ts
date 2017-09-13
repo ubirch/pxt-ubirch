@@ -3,47 +3,33 @@
  */
 
 
-    //% weight=2 color=#117447 icon="\u1f50f" block="ubirch"
+//% weight=2 color=#c02247 icon="\uf023" block="ubirch"
 //% parts="ubirch"
 namespace ubirch {
     /**
-     * Send a number to the backend server. Encodes key/value as a json message.
+     * Create a number message as a signed packet to send to the server. Encodes key/value as a json message.
+     * @param key the name of the data
+     * @param value the actual value to send
      */
     //% weight=70
-    //% blockId=ubirch_sendNumber block="send number message|key %key|value %n"
+    //% blockId=ubirch_createNumberMessage block="number key %key|value %n"
     //% blockExternalInputs=1
     //% parts="ubirch"
-    export function sendNumber(key: string, value: number): void {
-        send("{\"" + key + "\":" + value + "}");
+    export function createNumberMessage(key: string, value: number): string {
+        return signPacket("{\"" + key + "\":" + value + "}");
     }
 
     /**
      * Send a string to the backend server. Encodes key/value as a json message.
+     * @param key the name of the data
+     * @param value the actual value to send
      */
     //% weight=70
-    //% blockId=ubirch_sendString block="send string message|key %key|value %n"
+    //% blockId=ubirch_createStringMessage block="string key %key|value %n"
     //% blockExternalInputs=1
     //% parts="ubirch"
-    export function sendString(key: string, value: string): void {
-        send("{\"" + key + "\":\"" + value + "\"}");
-    }
-
-    /**
-     * Send the actual message, signed and encoded. Data is encoded in message pack format:
-     * INT[DeviceId]BYTES[Signature+Message]. The maximum message size is 440 bytes.
-     * @param message the message to send
-     */
-    //% weight=60
-    //% blockId=ubirch_send block="send raw message|message %message"
-    //% blockExternalInputs=1
-    //% advanced=true
-    //% parts="ubirch"
-    export function send(message: string): void {
-        let packet = createSignPacket(message);
-        if (packet.length > 0) {
-            // send UDP packet
-            bc95.send(packet);
-        }
+    export function createStringMessage(key: string, value: string): string {
+        return signPacket("{\"" + key + "\":\"" + value + "\"}");
     }
 
     /**
@@ -58,15 +44,15 @@ namespace ubirch {
 
     //% shim=ubirch::setInternalSignKey
     export function setInternalSignKey(encoded: string): boolean {
-        return;
+        return encoded.length == 64;
     }
 
     /**
-     * Show Calliope device id and the secret for communication.
+     * Show Calliope mini device id. It is used when encoding messages to identify
+     * the device.
      */
     //% blockId=ubirch_showdeviceinfo block="show device Info|on display %onDisplay"
     //% parts="ubirch"
-    //% advanced=true
     export function showDeviceInfo(onDisplay: boolean = true): void {
         let deviceId = stringToHex(numberToString(control.deviceSerialNumber()));
         modem.log("ID", deviceId);
@@ -92,8 +78,8 @@ namespace ubirch {
             String.fromCharCode(n & 0xff);
     }
 
-    //% shim=ubirch::createSignPacket
-    export function createSignPacket(message: string): string {
+    //% shim=ubirch::signPacket
+    export function signPacket(message: string): string {
         return message;
     }
 }

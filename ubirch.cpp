@@ -5,13 +5,14 @@ extern "C" {
 #include <machine/endian.h>
 }
 
-// 0xCE + [4 byte id] + [0xD9|0xDA] + [1|2 byte length] + [64 byte signature] + [message]
-#define PACKET_HEADER_SIZE (1 + 4 + 3)
+// [0x00|0x01] + 0xCE + [4 byte id] + [0xD9|0xDA] + [1|2 byte length] + [64 byte signature] + [message]
+#define PACKET_HEADER_SIZE (1 + 1 + 4 + 3)
 #define SIGNATURE_SIZE crypto_sign_BYTES
 #define MAX_MESSAGE_SIZE (512 - SIGNATURE_SIZE - 8)
 
 namespace ubirch {
     // inherently unsafe
+    static bool sign = false;
     static unsigned char signingKey[crypto_sign_SECRETKEYBYTES];
 
     // convert an ascii hex digit to a number
@@ -25,13 +26,14 @@ namespace ubirch {
         for(int i = 0; i < crypto_sign_SECRETKEYBYTES; i++) {
             signingKey[i] = (hexdigit(encodedKey->data[i*2]) << 4) | hexdigit(encodedKey->data[i*2+1]);
         }
-        return true;
+        sign = true;
+        return sign;
     }
 
     //%
-    StringData *createSignPacket(StringData *message) {
-        const unsigned int signedMessageLength = crypto_sign_BYTES + message->len;
-        const unsigned int packetSize = PACKET_HEADER_SIZE + signedMessageLength;
+    StringData *signPacket(StringData *message) {
+        const unsigned int totalMessageLength = (!sign ? 0 : crypto_sign_BYTES) + message->len;
+        const unsigned int packetSize = PACKET_HEADER_SIZE + totalMessageLength;
 
         // allocate the string data buffer (has a max overhead of 2 byte due to msgpack encoding and terminating \0)
         auto packet = (StringData *) malloc(4 + packetSize + 1);
@@ -42,6 +44,9 @@ namespace ubirch {
         // position in the msgpack data structure
         uint16_t index = 0;
 
+        // write message header indicating signed or unsigned message
+        packet->data[index++] = (uint8_t) ((!sign ? 0x00 : 0x01) & 0b0111111);
+
         // write the device id
         packet->data[index++] = (uint8_t) 0xce;
         // we need to store the device id big endian
@@ -50,38 +55,43 @@ namespace ubirch {
         index += 4;
 
         // write message and handle different length
-        if (signedMessageLength < 256) {
+        if (totalMessageLength < 256) {
             // long messages have only two byte headers
             packet->data[index++] = (uint8_t) 0xd9;
-            packet->data[index++] = (uint8_t) signedMessageLength;
-        } else if (signedMessageLength < MAX_MESSAGE_SIZE) {
+            packet->data[index++] = (uint8_t) totalMessageLength;
+        } else if (totalMessageLength < MAX_MESSAGE_SIZE) {
             // long messages have tree byte headers
             packet->data[index++] = (uint8_t) 0xda;
-            uint16_t _signedMessageLength = __builtin_bswap16((uint16_t) signedMessageLength);
+            uint16_t _signedMessageLength = __builtin_bswap16((uint16_t) totalMessageLength);
             memcpy(packet->data + index, &_signedMessageLength, 2);
             index += 2;
         } else {
             // we have a size limitation
 #ifndef NDEBUG
-            printf("encoding failed: message too long: %d > %d (max)\r\n", signedMessageLength, MAX_MESSAGE_SIZE);
+            printf("encoding failed: message too long: %d > %d (max)\r\n", totalMessageLength, MAX_MESSAGE_SIZE);
 #endif
             delete packet;
             return ManagedString().leakData();
         }
 
-        // do the actual signature generation and add it to the packet
-        crypto_uint16 smlen;
-        if (crypto_sign((unsigned char *) (packet->data + index), &smlen, (const unsigned char *) message->data,
-                         (crypto_uint16) (message->len), signingKey)) {
+        if(sign) {
+            // do the actual signature generation and add it to the packet
+            crypto_uint16 smlen;
+            if (crypto_sign((unsigned char *) (packet->data + index), &smlen, (const unsigned char *) message->data,
+                             (crypto_uint16) (message->len), signingKey)) {
 #ifndef NDEBUG
-            printf("signing failed\r\n");
+                printf("signing failed\r\n");
 #endif
-            delete packet;
-            return ManagedString().leakData();
+                delete packet;
+                return ManagedString().leakData();
+            }
+            printf("%d == %d\r\n", packet->len, index + smlen);
+            index += smlen;
+        } else {
+            memcpy(packet->data + index, &message->data, message->len);
+            index += message->len;
         }
-
-        // set the correct length
-        packet->len = index + smlen;
+        packet->len = index;
 
         return packet;
     }

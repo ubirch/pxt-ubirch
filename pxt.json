@@ -10,7 +10,9 @@
     "files": [
         "README.md",
         "ubirch.cpp",
-        "ubirch.ts"
+        "ubirch.ts",
+        "_locales/de/pxt-ubirch-jsdoc-strings.json",
+        "_locales/de/pxt-ubirch-strings.json"
     ],
     "testFiles": [
         "tests.ts"

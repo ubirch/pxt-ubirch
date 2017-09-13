@@ -1,7 +1,6 @@
 {
-  "ubirch.sendNumber|block": "send number message|key %key|value %n",
-  "ubirch.sendString|block": "send string message|key %key|value %n",
-  "ubirch.send|block": "send raw message|message %message",
+  "ubirch.createNumberMessage|block": "number key %key|value %n",
+  "ubirch.createStringMessage|block": "string key %key|value %n",
   "ubirch.setSignKey|block": "set sign key %signKey",
   "ubirch.showDeviceInfo|block": "show device Info|on display %onDisplay",
   "ubirch|block": "ubirch",

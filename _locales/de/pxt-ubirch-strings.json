@@ -1,0 +1,8 @@
+{
+  "ubirch.createNumberMessage|block": "Zahl Name %key|Wert %n",
+  "ubirch.createStringMessage|block": "Text Name %key|Wert %n",
+  "ubirch.setSignKey|block": "setze Signierschlüssel %signKey",
+  "ubirch.showDeviceInfo|block": "zeige Geräte-ID|auf dem display %onDisplay",
+  "ubirch|block": "ubirch",
+  "{id:category}Ubirch": "ubirch"
+}
