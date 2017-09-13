@@ -45,7 +45,7 @@ namespace ubirch {
         // write the device id
         packet->data[index++] = (uint8_t) 0xce;
         // we need to store the device id big endian
-        uint32_t _deviceId = __bswap32(microbit_serial_number());
+        uint32_t _deviceId = __builtin_bswap32(microbit_serial_number());
         memcpy(packet->data + index, (uint8_t *) &_deviceId, 4);
         index += 4;
 
@@ -57,7 +57,7 @@ namespace ubirch {
         } else if (signedMessageLength < MAX_MESSAGE_SIZE) {
             // long messages have tree byte headers
             packet->data[index++] = (uint8_t) 0xda;
-            uint16_t _signedMessageLength = __bswap16((uint16_t) signedMessageLength);
+            uint16_t _signedMessageLength = __builtin_bswap16((uint16_t) signedMessageLength);
             memcpy(packet->data + index, &_signedMessageLength, 2);
             index += 2;
         } else {

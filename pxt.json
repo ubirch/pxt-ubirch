@@ -22,7 +22,7 @@
     "public": true,
     "yotta": {
         "dependencies": {
-            "ubirch-nacl-cm0": "https://github.com/ubirch/ubirch-nacl-cm0#v0.1.0"
+            "ubirch-nacl-cm0": "ubirch/ubirch-nacl-cm0#v0.1.0"
         }
     }
 }
