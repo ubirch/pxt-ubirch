@@ -24,7 +24,7 @@
     "public": true,
     "yotta": {
         "dependencies": {
-            "ubirch-nacl-cm0": "ubirch/ubirch-mbed-nacl-cm0#v0.1.0"
+            "ubirch-mbed-nacl-cm0": "ubirch/ubirch-mbed-nacl-cm0#v0.1.0"
         }
     }
 }
