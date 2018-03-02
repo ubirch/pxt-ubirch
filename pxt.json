@@ -4,8 +4,7 @@
     "description": "ubirch NB-IoT Messaging",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "pxt-calliope-bc95": "*"
+        "core": "*"
     },
     "files": [
         "README.md",

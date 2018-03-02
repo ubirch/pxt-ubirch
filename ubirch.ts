@@ -59,7 +59,11 @@ namespace ubirch {
         if (onDisplay) basic.showString("id:" + deviceId, 250);
     }
 
-    // helper function to convert a string into a hex representation usable by the module
+    /**
+     * Helper function to convert a string into a hex representation.
+     */
+    //% blockId=ubirch_stringToHex block="to hex %s"
+    //% parts="ubirch"
     export function stringToHex(s: string): string {
         const l = "0123456789ABCDEF";
         let r = "";

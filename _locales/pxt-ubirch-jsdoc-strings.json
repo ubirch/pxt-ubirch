@@ -8,5 +8,6 @@
   "ubirch.createStringMessage|param|value": "the actual value to send",
   "ubirch.setSignKey": "Set secret key to sign messages as a hex encoded string.",
   "ubirch.setSignKey|param|signKey": "the key used for signing",
-  "ubirch.showDeviceInfo": "Show Calliope mini device id. It is used when encoding messages to identify\nthe device."
+  "ubirch.showDeviceInfo": "Show Calliope mini device id. It is used when encoding messages to identify\nthe device.",
+  "ubirch.stringToHex": "Helper function to convert a string into a hex representation."
 }

@@ -3,6 +3,8 @@
   "ubirch.createStringMessage|block": "string key %key|value %n",
   "ubirch.setSignKey|block": "set sign key %signKey",
   "ubirch.showDeviceInfo|block": "show device Info|on display %onDisplay",
+  "ubirch.stringToHex|block": "to hex %s",
   "ubirch|block": "ubirch",
+  "{id:category}Test_ubirch": "Test_ubirch",
   "{id:category}Ubirch": "Ubirch"
 }
