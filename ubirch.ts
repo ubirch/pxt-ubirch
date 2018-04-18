@@ -55,6 +55,7 @@ namespace ubirch {
     //% parts="ubirch"
     export function showDeviceInfo(onDisplay: boolean = true): void {
         let deviceId = stringToHex(numberToString(control.deviceSerialNumber()));
+        serial.writeLine("ID: " + deviceId)
         if (onDisplay) basic.showString("id:" + deviceId, 250);
     }
 
